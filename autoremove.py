@@ -1,13 +1,15 @@
 import os
 import telebot
 
-TOKEN = os.getenv("TOKEN")  # Токен берем из переменных окружения
+TOKEN = os.getenv("TOKEN")
 if not TOKEN:
-    raise ValueError("❌ Не найден TOKEN! Добавь его в Railway Variables.")
+    raise ValueError("TOKEN не найден!")
 
 bot = telebot.TeleBot(TOKEN)
 
-# Сервисные сообщения (смена фото, названия, закрепы и т.д.)
+# Отключаем Webhook, чтобы можно было использовать polling
+bot.remove_webhook()
+
 @bot.message_handler(content_types=[
     "new_chat_photo", "delete_chat_photo",
     "new_chat_title", "pinned_message"
@@ -15,9 +17,9 @@ bot = telebot.TeleBot(TOKEN)
 def delete_service_messages(message):
     try:
         bot.delete_message(message.chat.id, message.message_id)
-        print(f"🗑 Удалено системное сообщение в чате {message.chat.id}")
+        print(f"Удалено сообщение в чате {message.chat.id}")
     except Exception as e:
-        print("Ошибка при удалении:", e)
+        print("Ошибка:", e)
 
-print("✅ Бот запущен и работает...")
+print("Бот запущен...")
 bot.infinity_polling()
