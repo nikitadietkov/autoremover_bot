@@ -12,7 +12,7 @@ if not TOKEN:
 bot = telebot.TeleBot(TOKEN)
 
 # 👑 Укажи свой Telegram ID
-ADMIN_ID = 123456789   # <<< сюда вставь свой ID
+ADMIN_ID = 917246134  # <<< сюда вставь свой ID
 
 bot.set_my_commands([
     types.BotCommand("addsize", "Добавить размер (раз в день)"),
@@ -222,3 +222,4 @@ def admin_reset(message):
 bot.remove_webhook()
 print("Бот запущен...")
 bot.infinity_polling()
+
