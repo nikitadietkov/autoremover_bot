@@ -23,6 +23,35 @@ def save_data():
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(sizes, f, ensure_ascii=False, indent=2)
 
+# Рандомные фразы
+funny_comments = [
+    "⚡ Карандаш точится сам по себе!",
+    "😏 Линейка уже трещит по швам!",
+    "🔥 Осторожно, скоро в потолок упрётся!",
+    "📐 Тебе пора покупать пенал побольше...",
+    "🚀 Этот карандаш готов к полётам!",
+    "😂 Да его уже можно на чертёжной доске использовать!",
+]
+
+def get_emoji(size):
+    if size < 10:
+        return "🍼"
+    elif size < 20:
+        return "😏"
+    elif size < 30:
+        return "🔥"
+    else:
+        return "🚀"
+
+def get_title(size):
+    if size < 10:
+        return "Новичок"
+    elif size < 20:
+        return "Ученик линейки"
+    elif size < 30:
+        return "Повелитель карандашей"
+    else:
+        return "Легенда XXL"
 
 @bot.message_handler(commands=["addSize"])
 def add_size(message):
@@ -48,12 +77,17 @@ def add_size(message):
 
     save_data()
 
+    comment = random.choice(funny_comments)
+    emoji = get_emoji(sizes[user_id]["size"])
+    title = get_title(sizes[user_id]["size"])
+
     bot.reply_to(
         message,
-        f"📏 {username}, сегодня твой карандаш вырос на {growth} см!\n"
-        f"Итого: {sizes[user_id]['size']:.1f} см."
+        f"{emoji} {username}, сегодня твой карандаш вырос на {growth} см!\n"
+        f"Итого: {sizes[user_id]['size']:.1f} см.\n"
+        f"🏅 Титул: {title}\n\n"
+        f"{comment}"
     )
-
 
 @bot.message_handler(commands=["showStat"])
 def show_stat(message):
@@ -66,10 +100,11 @@ def show_stat(message):
 
     text = "📊 Статистика размеров карандашей:\n\n"
     for i, (user_id, data) in enumerate(stats, start=1):
-        text += f"{i}. {data['name']} — {data['size']:.1f} см\n"
+        emoji = get_emoji(data["size"])
+        title = get_title(data["size"])
+        text += f"{i}. {emoji} {data['name']} — {data['size']:.1f} см ({title})\n"
 
     bot.reply_to(message, text)
-
 
 # Отключаем Webhook, чтобы можно было использовать polling
 bot.remove_webhook()
