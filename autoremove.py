@@ -10,6 +10,13 @@ if not TOKEN:
 
 bot = telebot.TeleBot(TOKEN)
 
+bot.set_my_commands([
+    types.BotCommand("addSize", "Добавить размер (раз в день)"),
+    types.BotCommand("showStat", "Показать статистику"),
+    types.BotCommand("help", "Список команд"),
+    types.BotCommand("start", "Запустить бота заново")
+])
+
 DATA_FILE = "sizes.json"
 
 # Загружаем данные
@@ -135,3 +142,4 @@ bot.remove_webhook()
 
 print("Бот запущен...")
 bot.infinity_polling()
+
