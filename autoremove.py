@@ -135,13 +135,15 @@ def show_stat(message):
         return
 
     stats = sorted(sizes.items(), key=lambda x: x[1]["size"], reverse=True)
+    
+    # Initialize the text variable
+    text = "📊 Рейтинг карандашей:\n\n"
 
-    text += f"{i}. {emoji} {data.get('name')} (@{data.get('username', 'нет')}) -- {data['size']:.1f} см ({title}){crown}\n"
     for i, (user_id, data) in enumerate(stats, start=1):
         emoji = get_emoji(data["size"])
         title = get_title(data["size"])
         crown = " 👑" if i == 1 else ""
-        text += f"{i}. {emoji} {data['name']} — {data['size']:.1f} см ({title}){crown}\n"
+        text += f"{i}. {emoji} {data['name']} -- {data['size']:.1f} см ({title}){crown}\n"
 
     text += "\n👉 Подсказка: используй /addsize, чтобы прокачать свой карандаш!"
     bot.reply_to(message, text)
@@ -222,4 +224,5 @@ def admin_reset(message):
 bot.remove_webhook()
 print("Бот запущен...")
 bot.infinity_polling()
+
 
