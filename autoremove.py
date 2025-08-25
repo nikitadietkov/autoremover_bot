@@ -12,8 +12,8 @@ if not TOKEN:
 bot = telebot.TeleBot(TOKEN)
 
 bot.set_my_commands([
-    types.BotCommand("addSize", "Добавить размер (раз в день)"),
-    types.BotCommand("showStat", "Показать статистику"),
+    types.BotCommand("addsize", "Добавить размер (раз в день)"),
+    types.BotCommand("showstat", "Показать статистику"),
     types.BotCommand("help", "Список команд"),
     types.BotCommand("start", "Запустить бота заново")
 ])
@@ -81,7 +81,7 @@ def start(message):
 def help_cmd(message):
     bot.reply_to(message, HELP_TEXT)
 
-@bot.message_handler(commands=["addSize"])
+@bot.message_handler(commands=["addsize"])
 def add_size(message):
     user_id = str(message.from_user.id)
     username = message.from_user.first_name or "Безымянный"
@@ -118,7 +118,7 @@ def add_size(message):
         "👉 Подсказка: напиши /showStat, чтобы увидеть рейтинг!"
     )
 
-@bot.message_handler(commands=["showStat"])
+@bot.message_handler(commands=["showstat"])
 def show_stat(message):
     if not sizes:
         bot.reply_to(message, "📉 Пока нет статистики.")
@@ -143,5 +143,6 @@ bot.remove_webhook()
 
 print("Бот запущен...")
 bot.infinity_polling()
+
 
 
