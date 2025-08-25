@@ -66,7 +66,7 @@ def add_size(message):
         return
 
     # Рандомное число 0.5–5.0 см
-    growth = round(random.uniform(0.5, 5.0), 1)
+    growth = round(random.uniform(0.5, 10.0), 1)
 
     if user_id not in sizes:
         sizes[user_id] = {"name": username, "size": 0, "last_update": ""}
@@ -111,5 +111,6 @@ bot.remove_webhook()
 
 print("Бот запущен...")
 bot.infinity_polling()
+
 
 
