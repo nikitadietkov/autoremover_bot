@@ -53,6 +53,26 @@ def get_title(size):
     else:
         return "Легенда XXL"
 
+# 📌 Подсказки
+HELP_TEXT = (
+    "📖 Доступные команды:\n\n"
+    "/addSize — добавить себе +0.5–5 см (раз в день)\n"
+    "/showStat — показать рейтинг карандашей\n"
+    "/help — список команд\n"
+)
+
+@bot.message_handler(commands=["start"])
+def start(message):
+    bot.reply_to(
+        message,
+        "👋 Привет! Это бот для измерения карандашей.\n"
+        "Каждый день можно увеличивать свой карандаш.\n\n" + HELP_TEXT
+    )
+
+@bot.message_handler(commands=["help"])
+def help_cmd(message):
+    bot.reply_to(message, HELP_TEXT)
+
 @bot.message_handler(commands=["addSize"])
 def add_size(message):
     user_id = str(message.from_user.id)
@@ -86,7 +106,8 @@ def add_size(message):
         f"{emoji} {username}, сегодня твой карандаш вырос на {growth} см!\n"
         f"Итого: {sizes[user_id]['size']:.1f} см.\n"
         f"🏅 Титул: {title}\n\n"
-        f"{comment}"
+        f"{comment}\n\n"
+        "👉 Подсказка: напиши /showStat, чтобы увидеть рейтинг!"
     )
 
 @bot.message_handler(commands=["showStat"])
@@ -102,7 +123,10 @@ def show_stat(message):
     for i, (user_id, data) in enumerate(stats, start=1):
         emoji = get_emoji(data["size"])
         title = get_title(data["size"])
-        text += f"{i}. {emoji} {data['name']} — {data['size']:.1f} см ({title})\n"
+        crown = " 👑" if i == 1 else ""
+        text += f"{i}. {emoji} {data['name']} — {data['size']:.1f} см ({title}){crown}\n"
+
+    text += "\n👉 Подсказка: используй /addSize, чтобы прокачать свой карандаш!"
 
     bot.reply_to(message, text)
 
@@ -111,6 +135,3 @@ bot.remove_webhook()
 
 print("Бот запущен...")
 bot.infinity_polling()
-
-
-
