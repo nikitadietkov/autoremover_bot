@@ -3,6 +3,7 @@ import telebot
 import json
 import random
 from datetime import datetime
+from telebot import types
 
 TOKEN = os.getenv("TOKEN")
 if not TOKEN:
@@ -142,4 +143,5 @@ bot.remove_webhook()
 
 print("Бот запущен...")
 bot.infinity_polling()
+
 
