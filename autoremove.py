@@ -4,7 +4,7 @@ import json
 import random
 from datetime import datetime
 
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("8313689826:AAHLlcgQkVNogy0Z223_MhWu8KClyqBRexg")
 if not TOKEN:
     raise ValueError("TOKEN не найден!")
 
@@ -111,3 +111,4 @@ bot.remove_webhook()
 
 print("Бот запущен...")
 bot.infinity_polling()
+
